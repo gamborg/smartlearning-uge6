@@ -26,7 +26,7 @@ namespace my_pizza.Infrastructure.Factories
 
             basket = new BasketService(connectionId);
             _baskets.Add(basket);
-            return basket;
+            return await Task.FromResult(basket);
         }
     }
 }

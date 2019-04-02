@@ -10,7 +10,7 @@ namespace my_pizza.Infrastructure.Hubs
     {
         private readonly IBasketFactory _basketFactory;
         private readonly CatalogContext _context;
-        public BasketHub(IBasketFactory basketFactory, CatalogContext context) 
+        public OrderHub(IBasketFactory basketFactory, CatalogContext context) 
         {
             _basketFactory = basketFactory;
             _context = context;
