@@ -30,6 +30,7 @@ namespace my_pizza
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -40,12 +41,12 @@ namespace my_pizza
             services.AddSingleton<IBasketFactory, BasketFactory>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddDbContext<CatalogContext>();
-            services.AddSignalR();
+            // services.AddSignalR();
 
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromHours(1);
                 options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
@@ -73,10 +74,10 @@ namespace my_pizza
             app.UseSession();
             app.UseCookiePolicy();
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<BasketHub>("/basketHub");
-            });
+            // app.UseSignalR(routes =>
+            // {
+            //     routes.MapHub<BasketHub>("/basketHub");
+            // });
 
             app.UseMvc(routes =>
             {

@@ -4,6 +4,11 @@
             "database": "C:\\Dev\\smartlearning\\smartlearning-uge6\\my-pizza\\my_pizza.db",
             "dialect": "SQLite",
             "name": "MyPizza"
+        },
+        {
+            "database": "/Users/anders/Desktop/smartlearning/uge6/my-pizza/my_pizza.db",
+            "dialect": "SQLite",
+            "name": "MyPizza-Mac"
         }
     ]
 }

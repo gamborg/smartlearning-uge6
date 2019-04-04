@@ -38,7 +38,12 @@ namespace my_pizza.Controllers.API
             var order = new Order();
             order.Customer = customer;
             order.Products = new List<Product>();
-            cart.ForEach(x => { order.Products.Add(x.Product); });
+            
+            foreach (var cartItem in cart) 
+            {
+                order.Products.Add(cartItem.Product);
+            }
+            
             return await _orderService.Add(order);
         }
     }
