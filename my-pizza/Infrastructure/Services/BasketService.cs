@@ -33,7 +33,7 @@ namespace my_pizza.Infrastructure.Services
             if (_items.FirstOrDefault(i => i.Product.Id == item.Product.Id) == null) {
                 _items.Add(item);
             } else {
-                _items.First(i => i.Product.Id == item.Product.Id).Qty += item.Qty;
+                _items.First(i => i.Product.Id == item.Product.Id).Product.Qty += item.Product.Qty;
             }
 
             return _items;

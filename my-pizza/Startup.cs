@@ -38,6 +38,7 @@ namespace my_pizza
             });
             
             services.AddSingleton<IBasketFactory, BasketFactory>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddDbContext<CatalogContext>();
             services.AddSignalR();
 

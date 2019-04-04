@@ -20,8 +20,9 @@ namespace my_pizza.Infrastructure.Hubs
         {
             var basket = await _basketFactory.GetBasket(Context.ConnectionId);
             var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+            product.Qty = qty;
             
-            await Clients.Caller.SendAsync("RecievedAddToBasket", basket.Add(new BasketItem { Product = product, Qty = qty }));
+            await Clients.Caller.SendAsync("RecievedAddToBasket", basket.Add(new BasketItem { Product = product }));
         }
     }
 }

@@ -16,7 +16,8 @@ namespace my_pizza.Controllers
     public class CartController : Controller
     {
         private readonly CatalogContext _context;
-´        public CartController(CatalogContext context)
+
+        public CartController(CatalogContext context)
         {
             _context = context;
         }
@@ -47,10 +48,41 @@ namespace my_pizza.Controllers
                 cart = new List<BasketItem>();
             }
 
-            cart.Add(new BasketItem { Product = product, Qty = 1 });
+            product.Qty = 1;
+
+            cart.Add(new BasketItem { Product = product });
             HttpContext.Session.SetObjectAsJson("cart", cart);
             
             return await Task.FromResult(CreatedAtAction(nameof(CreateAsync), new { id = id }, cart));
         }
+
+        [HttpPost]
+        [Route("remove/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<List<BasketItem>>> RemoveAsync(int id)
+        {            
+            List<BasketItem> cart = HttpContext.Session.GetObjectFromJson<List<BasketItem>>("cart");
+            if (cart == null) 
+            {
+                return BadRequest("Basket empty");
+            }
+
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (product == null)
+            {
+                return BadRequest("Invalid id");
+            }
+
+            var item = cart.FirstOrDefault(x => x.Product.Id == id);
+            if (item != null) {
+                cart.Remove(item);
+            }
+
+            HttpContext.Session.SetObjectAsJson("cart", cart);
+            
+            return await Task.FromResult(cart);
+        }
+
     }
 }   

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using my_pizza.Infrastructure.Factories;
 using my_pizza.Infrastructure.Helpers;
+using my_pizza.Infrastructure.Services;
 using my_pizza.Models;
 
 namespace my_pizza.Controllers.API
@@ -15,32 +16,30 @@ namespace my_pizza.Controllers.API
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
-        private readonly CatalogContext _context;
+        private readonly IOrderService _orderService;
 
-        public OrderController(CatalogContext context)
+        public OrderController(IOrderService orderService)
         {
-            _context = context;
+            _orderService = orderService;
         }
 
         [HttpPost]
-        [Route("fullfill/")]
+        [Route("create/")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<BasketItem>>> CreateOrderAsync([FromBody] Customer customer)
+        public async Task<ActionResult<Order>> CreateOrderAsync([FromBody] Customer customer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid id");
-            }
-
             List<BasketItem> cart = HttpContext.Session.GetObjectFromJson<List<BasketItem>>("cart");
             if (cart == null) 
             {
                 return BadRequest("No items in cart");
             }
 
-            return await Task.FromResult("");
-            //return await Task.FromResult(CreatedAtAction(nameof(CreateAsync), new { id = id }, cart));
+            var order = new Order();
+            order.Customer = customer;
+            order.Products = new List<Product>();
+            cart.ForEach(x => { order.Products.Add(x.Product); });
+            return await _orderService.Add(order);
         }
     }
 }

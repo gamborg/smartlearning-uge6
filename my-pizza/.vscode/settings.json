@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "C:\\Dev\\smartlearning\\smartlearning-uge6\\my-pizza\\my_pizza.db",
+            "dialect": "SQLite",
+            "name": "MyPizza"
+        }
+    ]
+}

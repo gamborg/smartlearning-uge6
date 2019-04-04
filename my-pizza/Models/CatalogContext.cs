@@ -11,6 +11,7 @@ namespace my_pizza.Models
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -112,6 +113,12 @@ namespace my_pizza.Models
                 Price = 59,
                 CategoryId = 2
             });
+
+            builder.Entity<Order>()
+                .Property(b => b._customer).HasColumnName("customer");
+
+            builder.Entity<Order>()
+                .Property(b => b._products).HasColumnName("products");
         }
     }
 }
