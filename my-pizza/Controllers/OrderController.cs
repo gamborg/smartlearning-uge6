@@ -32,6 +32,31 @@ namespace my_pizza.Controllers
         }
 
         [HttpPost]
+        [Route("create")]
+        public async Task<ActionResult> CreateAsync(Customer customer)
+        {
+            List<BasketItem> cart = HttpContext.Session.GetObjectFromJson<List<BasketItem>>("cart");
+            if (!ModelState.IsValid) 
+            {
+                return View(customer);
+            }
+
+            var order = new Order();
+            order.Customer = customer;
+            order.Products = new List<Product>();
+            var products = new List<Product>();
+            foreach (var cartItem in cart) 
+            {
+                products.Add(cartItem.Product);
+            }
+            order.Products = products;
+
+            var result = await _orderService.Add(order);
+            return RedirectToAction("ShowOrderAsync", "Order", new { id = result.Id });
+
+        }
+
+        [HttpPost]
         [Route("{id}")]
         public async Task<ActionResult<Order>> UpdateOrderAsync(int id)
         {
