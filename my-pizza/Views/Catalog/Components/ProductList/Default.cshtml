@@ -1,6 +1,8 @@
 @model IEnumerable<Product>
 
+<table class="table">
 @foreach (var product in Model)
 {
     @await Component.InvokeAsync("Product", product)
 }
+</table>

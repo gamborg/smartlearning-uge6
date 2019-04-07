@@ -1,2 +1,6 @@
 @model Product
-@Model.Name&nbsp;&nbsp;<button class="add-to-basket" data-id="@Model.Id" data-qty="1">Add</button><br />
+<tr>
+    <td>@Model.Name</td>
+    <td>@Model.Price,-</td>
+    <td><a class="add-to-basket" asp-controller="Catalog" asp-action="AddToCart" asp-route-categoryId="@ViewBag.CategoryId" asp-route-productId="@Model.Id" asp-route-qty="1">Add</a></td>
+</tr>

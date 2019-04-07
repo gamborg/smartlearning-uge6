@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using my_pizza.Infrastructure.Services;
 using my_pizza.Models;
 
-namespace my_pizza.ViewComponents.Order.Paid
+namespace my_pizza.Infrastructure.ViewComponents.Order.Paid
 {
     [ViewComponent(Name = "OrderPaid")]
     public class OrderPaidViewComponent : ViewComponent

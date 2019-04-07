@@ -1,4 +1,4 @@
-namespace my_pizza.ViewComponts
+namespace my_pizza.Infrastructure.ViewComponts.Catalog
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -7,6 +7,7 @@ namespace my_pizza.ViewComponts
     using System.Threading.Tasks;
     using my_pizza.Models;
 
+    [ViewComponent(Name = "ProductList")]
     public class ProductListViewComponent : ViewComponent
     {
         private readonly CatalogContext _context;

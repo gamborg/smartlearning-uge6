@@ -1,0 +1,8 @@
+﻿@model List<my_pizza.Models.Category>
+
+<ul>
+@foreach (var category in Model)
+{
+    <li><a href="?id=@category.Id">@category.Name</a></li>
+}
+</ul>

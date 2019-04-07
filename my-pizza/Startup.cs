@@ -50,10 +50,10 @@ namespace my_pizza
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddAuthentication("CookieAuth").AddCookie("CookieAuth", options => {
-                options.LoginPath = "/Identity/Account/Login/";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied/";
-            });
+            //services.AddAuthentication("CookieAuth").AddCookie("CookieAuth", options => {
+            //    options.LoginPath = "/Identity/Account/Login/";
+            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied/";
+            //});
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -83,7 +83,7 @@ namespace my_pizza
             app.UseStaticFiles();
             app.UseSession();
             
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

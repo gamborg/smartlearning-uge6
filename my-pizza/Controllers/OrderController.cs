@@ -11,10 +11,9 @@ using my_pizza.Infrastructure.Helpers;
 using my_pizza.Infrastructure.Services;
 using my_pizza.Models;
 
-namespace my_pizza.Areas.Orders
+namespace my_pizza.Controllers
 {
     [Route("order")]
-    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
