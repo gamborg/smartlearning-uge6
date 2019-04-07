@@ -30,7 +30,7 @@ namespace my_pizza.Infrastructure.Services
             order.Currency = "DKK";
             var sum = order.Products.Sum(x => x.Qty * x.Price);
             order.Total = order.Fee + sum;
-            order.Status = Status.PENDING;
+            order.Status = Status.AWAITING_PAYMENT;
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             return order;

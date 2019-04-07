@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 using my_pizza.Infrastructure.Factories;
-using my_pizza.Infrastructure.Hubs;
 using my_pizza.Infrastructure.Services;
 using my_pizza.Models;
 using Microsoft.AspNetCore.Authentication;
