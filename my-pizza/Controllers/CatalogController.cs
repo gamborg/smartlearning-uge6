@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using my_pizza.Models;
 
 namespace my_pizza.Controllers
 {
+    [Authorize]
     public class CatalogController : Controller
     {
         private readonly CatalogContext _context;

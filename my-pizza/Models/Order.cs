@@ -16,6 +16,7 @@ namespace my_pizza.Models
         }
 
         internal string _products { get; set; }
+
         [NotMapped]
         public List<Product> Products
         {
@@ -29,7 +30,7 @@ namespace my_pizza.Models
         public int Fee { get; set; }
         public int Tips { get; set; }
         public string Currency { get; set; }
-        public int Total { get; set; }
+        public double Total { get; set; }
         public Status Status { get; set; }
         public DateTime DeliveryDate { get; set; }
         public DateTime CreatedAt { get; set; }

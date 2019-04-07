@@ -1,0 +1,23 @@
+@model my_pizza.Models.Order
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model == null) {
+    <div>Ordren blev ikke fundet</div>
+} else {
+    switch(Model.Status)
+    {
+        case Status.PENDING:
+            @await Component.InvokeAsync("OrderCreated", new { id = Model.Id });
+            break;
+
+        case Status.AWAITING_PAYMENT:
+            @await Component.InvokeAsync("OrderWaitingForPayment", new { id = Model.Id });
+            break;
+
+        case Status.COMPLETED:
+            @await Component.InvokeAsync("OrderPaid", new { id = Model.Id });
+            break;
+
+    }
+}

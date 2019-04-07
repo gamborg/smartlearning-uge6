@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 using my_pizza.Infrastructure.Factories;
 using my_pizza.Infrastructure.Hubs;
 using my_pizza.Infrastructure.Services;
 using my_pizza.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace my_pizza
 {
@@ -30,26 +32,35 @@ namespace my_pizza
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDistributedMemoryCache();
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+ 
             services.AddSingleton<IBasketFactory, BasketFactory>();
+            services.AddSingleton<IEmailSender, EmailService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddDbContext<CatalogContext>();
-            // services.AddSignalR();
 
             services.AddSession(options =>
             {
-                // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromHours(1);
                 options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
                 options.Cookie.IsEssential = true;
+            });
+
+            services.AddAuthentication("CookieAuth").AddCookie("CookieAuth", options => {
+                options.LoginPath = "/Identity/Account/Login/";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied/";
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.SlidingExpiration = true;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -65,19 +76,14 @@ namespace my_pizza
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
-            app.UseCookiePolicy();
-
-            // app.UseSignalR(routes =>
-            // {
-            //     routes.MapHub<BasketHub>("/basketHub");
-            // });
+            
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
